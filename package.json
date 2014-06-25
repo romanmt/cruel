@@ -1,0 +1,33 @@
+{
+  "name": "cruel",
+  "description": "Async rules engine for node.js",
+  "version": "0.0.1",
+  "keywords": [
+    "rules",
+    "business logic"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/romanmt/cruel"
+  },
+  "main": "./lib/cruel",
+  "dependencies": {
+    "async": "~0.2.10",
+    "lodash": "~2.4.1"
+  },
+  "devDependencies": {
+    "should": ">= 0.2.1",
+    "mocha": ">= 1.13.0"
+  },
+  "scripts": {
+    "test": "mocha -u bdd -R spec -c ./test/*test.js"
+  },
+  "license": "MIT",
+  "engine": {
+    "node": ">= 0.6"
+  },
+  "author": {
+    "name": "Matt Roman",
+    "email": "matt@jamplify.com"
+  }
+}
