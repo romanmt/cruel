@@ -22,8 +22,8 @@ describe('add', function() {
 describe('fire', function() {
   it('executes the rule implementation function', function(done) {
     rules.ruleSet("My Rules")
-      .add("Step 1", function(err, facts) {
-        facts.should.eql("that is a fact jack")
+      .add("Step 1", function(err, fact) {
+        fact.should.eql("that is a fact jack")
         done()
       }).fire("My Rules", "that is a fact jack")
   })
@@ -36,6 +36,18 @@ describe('fire', function() {
         result.should.equal('this is a fact')
         done()
       })
+    })
+  })
+
+  describe('with predicate', function() {
+    it.only('fires on true', function(done) {
+      var pred = function(fact) {
+        console.log(fact)
+        return fact.amount === 1
+      }
+      rules.ruleSet("my rules").add("only if true", pred, function(err) {
+        done()
+      }).fire("my rules", {amount: 1})
     })
   })
 })
