@@ -40,9 +40,8 @@ describe('fire', function() {
   })
 
   describe('with predicate', function() {
-    it.only('fires on true', function(done) {
+    it('fires on true', function(done) {
       var pred = function(fact) {
-        console.log(fact)
         return fact.amount === 1
       }
       rules.ruleSet("my rules").add("only if true", pred, function(err) {
