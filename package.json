@@ -13,6 +13,7 @@
   "main": "./lib/cruel",
   "dependencies": {
     "async": "~0.2.10",
+    "bluebird": "^2.10.1",
     "lodash": "~2.4.1"
   },
   "devDependencies": {
@@ -29,5 +30,14 @@
   "author": {
     "name": "Matt Roman",
     "email": "matt@jamplify.com"
+  },
+  "jshintConfig": {
+    "eqeqeq": true,
+    "indent": 2,
+    "esnext": true,
+    "asi": true,
+    "maxlen": 80,
+    "singleGroups": true,
+    "unused": true
   }
 }

@@ -1,4 +1,5 @@
 var Cruel = require('../lib/cruel'),
+    Emitter = require('events').EventEmitter,
     rules = new Cruel()
 
 require('should')
@@ -32,10 +33,11 @@ describe('fire', function() {
     it("yields the given facts unchanged", function(done){
 
       var facts = "this is a fact"
-      rules.fire('rules 1', facts, function(err, result) {
-        result.should.equal('this is a fact')
-        done()
-      })
+      rules
+        .fire('rules 1', facts, function(err, result) {
+          result.should.equal('this is a fact')
+          done()
+        })
     })
   })
 
@@ -44,9 +46,23 @@ describe('fire', function() {
       var pred = function(fact) {
         return fact.amount === 1
       }
-      rules.ruleSet("my rules").add("only if true", pred, function(err) {
-        done()
-      }).fire("my rules", {amount: 1})
+      rules.ruleSet("my rules")
+        .add("only if true", pred, function(err) {
+          done()
+        })
+        .fire("my rules", {amount: 1})
+    })
+  })
+
+  describe('run', function() {
+    it("fires rules based on an event", function(){
+      var events = new Emitter()
+      rules.ruleSet("my rules")
+        .add("respond to event", function(err) {
+          done()
+        })
+        .run(events)
+      events.emit("fire", "my rules", {amount: 1})
     })
   })
 })
