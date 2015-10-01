@@ -14,7 +14,6 @@ describe("Library", function() {
         },
         then: function(fact) {
           fact.isMatt = true
-          return fact;
         }
       },
       {
@@ -27,9 +26,9 @@ describe("Library", function() {
         }
       }
     ]
-    it.only("gets the next aplicable rule", function(done) {
+    it("gets the next aplicable rule", function(done) {
       var fact = {name: "matt"}
-      Library.nextRule(rules, fact, function(err, result) {
+      Library.nextRule(rules, fact, function(result) {
         result.name.should.eql("1")
         done()
       })
@@ -40,7 +39,6 @@ describe("Library", function() {
 describe("Engine", function() {
   var rules = [
       {
-        name: '1',
         when: function(fact) {
           return fact.name === "matt" && !fact.isMatt
         },
@@ -50,21 +48,45 @@ describe("Engine", function() {
         }
       },
       {
-        name: '2',
         when: function(fact) {
-          return fact.name.length === 3 && !fact.mustBeBob
+          var res = fact.name.length === 3 && !fact.mustBeBob
+          console.log("must be bob check ", res)
+          return res
         },
         then: function(fact) {
           fact.mustBeBob = true
+          return fact
+        }
+      },
+      {
+        when: function(fact) {
+          console.log(fact)
+          var res = fact.mustBeBob && fact.name === "bob" && !fact.itIsBob
+          console.log("is bob check ", res)
+          return res;
+        },
+        then: function(fact) {
+          fact.itIsBob = true
+          return fact
         }
       }
     ]
+  describe("multiple applicable rules", function() {
+    it("executes all applicable rules", function(done) {
+      var facts = [{name: "bob"}]
+      Engine.process(facts, rules, function(err, results) {
+        results[0].mustBeBob.should.eql(true)
+        results[0].itIsBob.should.eql(true)
+      })
+      done()
+    })
+  })
 
   describe("processes applicable rules", function() {
-    it("returns the result of the rule", function(done) {
-      var facts = [{name: matt}]
-      Engine.process(facts, rules, function(err, result) {
-
+    it("returns the results of the rule", function(done) {
+      var facts = [{name: "matt"}]
+      Engine.process(facts, rules, function(err, results) {
+        results[0].isMatt.should.eql(true)
         done()
       })
 
