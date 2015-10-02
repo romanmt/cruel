@@ -5,6 +5,22 @@ require("should")
 require("mocha")
 
 describe("Library", function() {
+  describe("anyMatches", function() {
+    it.only("returns true if there is a rule match", function() {
+      var rules = [
+        {
+          when: function(fact) {
+            return fact.name === "matt"
+          }
+        }
+      ]
+
+      Library.anyMatches(rules, [{name: 'matt'}], function(result) {
+        result.should.eql(true)
+      })
+    })
+  })
+
   describe("#nextRule", function() {
     var rules = [
       {
